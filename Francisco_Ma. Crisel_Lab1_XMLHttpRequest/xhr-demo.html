@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XMLHttpRequest Lab Exercise</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f7f4fb;
+      color: #3d2b56;
+    }
+    h2 {
+      color: #5c4b8a;
+    }
+    button {
+      background-color: #b19cd9;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #9b84d1;
+    }
+    #output {
+      margin-top: 20px;
+      border: 1px solid #cbbde2;
+      padding: 20px;
+      border-radius: 6px;
+      background-color: #f2ecfa;
+      min-height: 100px;
+      transition: opacity 0.5s ease;
+      text-align: left;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+    }
+
+    .spinner {
+      border: 4px solid #e2d9f3;
+      border-top: 4px solid #a68ed6;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #8a7ab9;
+      font-style: italic;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Exploring XMLHttpRequest</h2>
+  <button id="loadData">Load Post Data</button>
+  <div id="output"></div>
+
+  <script>
+    document.getElementById("loadData").addEventListener("click", function() {
+      const xhr = new XMLHttpRequest();
+      const output = document.getElementById("output");
+
+      output.innerHTML = `
+        <div class="loading-container">
+          <div class="spinner"></div>
+          <span class="loading-text">Loading...</span>
+        </div>
+      `;
+
+      xhr.open("GET", "https://jsonplaceholder.typicode.com/posts/1", true);
+
+      xhr.onload = function() {
+        setTimeout(() => {
+          if (xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            output.style.opacity = "0";
+            setTimeout(() => {
+              output.style.opacity = "1";
+              output.innerHTML =
+                "<strong>Post Title:</strong> " + data.title + "<br><br>" +
+                "<strong>Content:</strong> " + data.body;
+            }, 300);
+          } else {
+            output.innerHTML =
+              "<span style='color:#d9534f;'>Error: " + xhr.status + " - " + xhr.statusText + "</span>";
+          }
+        }, 1000);
+      };
+
+      xhr.onerror = function() {
+        output.innerHTML =
+          "<span style='color:#d9534f;'>Network error occurred. Please check your connection.</span>";
+      };
+
+      xhr.send();
+    });
+  </script>
+</body>
+</html>
