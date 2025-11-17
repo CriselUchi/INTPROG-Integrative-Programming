@@ -1,0 +1,3 @@
+1. I applied several XML rules such as using a single root element, making sure all tags have matching opening and closing tags, properly nesting elements, using case-sensitive tag names correctly, and ensuring the document is well-formed with no syntax errors.
+2. XML needs a single root element because it organizes all the data under one main container, making the document structured and readable by parsers. Without a root element, the XML would be invalid.
+3. XML ensures interoperability because it uses a standard, platform-independent format. Its structured, text-based nature allows different systems, applications, and programming languages to read, share, and process the data consistently.
